@@ -7,11 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace Do_an_quan_ly_khach_san
 {
     public partial class Dang_ky : Form
     {
+        SqlConnection connection;
+        SqlCommand command;
+        string str = @"Data Source=DESKTOP-QISVQOP\SQLEXPRESS;Initial Catalog=QuanLyKhachSan;Integrated Security=True";
+        SqlDataAdapter adapter = new SqlDataAdapter();
+        DataTable table = new DataTable();
+
+        void loadData()
+        {
+            command = connection.CreateCommand();
+            command.CommandText = "select * from PHONG,DANGKY where DANGKY.MaPhong = PHONG.MaPhong";
+            adapter.SelectCommand = command;
+            table.Clear();
+            adapter.Fill(table);
+            dgvChonPhong.DataSource = table;
+        }
+
         public Dang_ky()
         {
             InitializeComponent();
@@ -30,6 +47,25 @@ namespace Do_an_quan_ly_khach_san
             {
                 e.Cancel = true;
             }
+        }
+
+        private void btnDangKy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Dang_ky_Load(object sender, EventArgs e)
+        {
+            connection = new SqlConnection(str);
+            connection.Open();
+            loadData();
+        }
+
+        private void dgvChonPhong_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int i;
+            i = dgvChonPhong.CurrentRow.Index;
+           // txtSoDK.Text = dgvChonPhong.Rows[i].Cells[0].Value.ToString();
         }
     }
 }

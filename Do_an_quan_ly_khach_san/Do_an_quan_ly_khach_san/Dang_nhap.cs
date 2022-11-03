@@ -20,8 +20,16 @@ namespace Do_an_quan_ly_khach_san
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
             Trang_chu f = new Trang_chu();
-            this.Hide();
-            f.Show();
+            
+            if (txtTenDangNhap.Text=="admin"&&txtMatKhau.Text=="1234")
+            {
+                this.Hide();
+                f.Show();
+            }
+            else
+            {
+                MessageBox.Show("Nhập sai tên tài khoản hoặc mật khẩu", "Thông báo", MessageBoxButtons.OK);
+            }
             
         }
 
@@ -39,6 +47,18 @@ namespace Do_an_quan_ly_khach_san
             {
                 e.Cancel = true;
             }    
+        }
+
+        private void chkHienThiMK_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkHienThiMK.Checked == false)
+            {
+                txtMatKhau.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                txtMatKhau.UseSystemPasswordChar = true;
+            }
         }
     }
 }
